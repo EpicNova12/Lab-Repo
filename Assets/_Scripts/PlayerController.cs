@@ -15,7 +15,10 @@ public class PlayerController : MonoBehaviour
     public float jump = 5f;
     public float walkSpeed = 5f;
     public Camera playerCamera;
+    public Transform oldCamera;
     Vector3 cameraRotation;
+    //Gets camera position for when player stops aiming
+    Vector3 oldCameraPosition;
 
     private Animator animator;
     private bool isWalking = false;
@@ -43,11 +46,13 @@ public class PlayerController : MonoBehaviour
         inputAction.Player.Look.performed += cntxt => rotate = cntxt.ReadValue<Vector2>();
         inputAction.Player.Look.canceled += cntxt => rotate = Vector2.zero;
 
-        inputAction.Player.Shoot.performed += cntxt => Shoot();      
+        inputAction.Player.Shoot.performed += cntxt => Shoot();
+
+        inputAction.Player.Aim.performed += cntxt => Aim(true);
+        inputAction.Player.Aim.canceled += cntxt => Aim(false);
 
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
         cameraRotation = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         
@@ -68,6 +73,18 @@ public class PlayerController : MonoBehaviour
         bulletRb.AddForce(transform.forward * 32f, ForceMode.Impulse);
         bulletRb.AddForce(transform.up * 1f, ForceMode.Impulse);
     }
+    //= new Vector3(0.19f, 1.69f, 0.47f) new Vector3(0.0f,-2.36f,9.85f)
+    private void Aim(bool aiming)
+    {
+        if (aiming)
+        {
+            playerCamera.transform.position =  new Vector3 (projectilePos.transform.position.x-0.828f, projectilePos.transform.position.y+0.787f, projectilePos.transform.position.z-1.853f);
+        }
+        else
+        {
+            playerCamera.transform.position = new Vector3(oldCamera.transform.position.x, oldCamera.transform.position.y, oldCamera.transform.position.z);
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -75,6 +92,8 @@ public class PlayerController : MonoBehaviour
         cameraRotation = new Vector3(cameraRotation.x + rotate.y, cameraRotation.y + rotate.x, cameraRotation.z);
         
         playerCamera.transform.rotation = Quaternion.Euler(cameraRotation);
+        oldCamera.transform.rotation = Quaternion.Euler(cameraRotation);
+
         transform.eulerAngles = new Vector3(transform.rotation.x, cameraRotation.y, transform.rotation.z);
 
         transform.Translate(Vector3.right * Time.deltaTime * move.x * walkSpeed, Space.Self);
