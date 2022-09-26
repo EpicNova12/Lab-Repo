@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
         if (other.collider.tag == "Enemy")
         {
             PlayerHealth.instance.TakeDamage(1);
-            Debug.Log(PlayerHealth.instance.getHealth());
+            Debug.Log("Health: "+PlayerHealth.instance.getHealth());
             if (PlayerHealth.instance.getHealth() <= 0)
             {
                 animator.SetBool("isAlive", false);

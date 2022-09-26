@@ -19,7 +19,10 @@ public class Bullet : MonoBehaviour
         else if(other.collider.tag == "Enemy")
         {
             FindObjectOfType<EnemyController>().TakeDamage(1);
-            // Destroy(other.gameObject);
+            if(FindObjectOfType<EnemyController>().getEHealth()<=0)
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
    

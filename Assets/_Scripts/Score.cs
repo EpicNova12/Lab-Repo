@@ -20,4 +20,10 @@ public class Score : MonoBehaviour
     {
         currentScore = currentScore + amount;
     }
+
+    public int getScore()
+    {
+        return currentScore;
+    }
+    
 }

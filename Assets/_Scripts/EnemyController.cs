@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    public float health;
+    public int health;
 
     //Patroling
     public Vector3 walkPoint;
@@ -104,13 +104,16 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        enemyAnimator.SetTrigger("Hit");
+
         if (health <= 0)
         {
-            DestroyEnemy();
-            Score.instance.scoreUp(1);
-            //Invoke(nameof(DestroyEnemy), 0.5f);
+            Score.instance.scoreUp(2);
+            Debug.Log("Score: " + Score.instance.getScore());
         }
+    }
+    public int getEHealth()
+    {
+        return health;
     }
     private void DestroyEnemy()
     {
