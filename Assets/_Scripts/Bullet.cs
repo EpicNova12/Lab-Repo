@@ -10,10 +10,16 @@ public class Bullet : MonoBehaviour
 
         if(other.collider.tag == "Player")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        } else if(other.collider.tag == "Enemy")
+            FindObjectOfType<PlayerHealth>().TakeDamage(1);
+            if(FindObjectOfType<PlayerHealth>().getHealth() <= 0)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+        } 
+        else if(other.collider.tag == "Enemy")
         {
             Destroy(other.gameObject);
         }
     }
+   
 }
