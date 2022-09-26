@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 5f;
     public Camera playerCamera;
     public Transform oldCamera;
+    public float cameraSpeed;
     Vector3 cameraRotation;
     //Gets camera position for when player stops aiming
     Vector3 oldCameraPosition;
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour
         Rigidbody bulletRb = Instantiate(projectile, projectilePos.transform.position, Quaternion.identity).GetComponent<Rigidbody>();
         bulletRb.AddForce(transform.forward * 32f, ForceMode.Impulse);
         bulletRb.AddForce(transform.up * 1f, ForceMode.Impulse);
+        animator.SetTrigger("Shoot");
     }
     //= new Vector3(0.19f, 1.69f, 0.47f) new Vector3(0.0f,-2.36f,9.85f)
     private void Aim(bool aiming)
@@ -89,7 +91,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cameraRotation = new Vector3(cameraRotation.x + rotate.y, cameraRotation.y + rotate.x, cameraRotation.z);
+        cameraRotation = new Vector3(cameraRotation.x + rotate.y*cameraSpeed, cameraRotation.y + rotate.x * cameraSpeed, cameraRotation.z * cameraSpeed);
         
         playerCamera.transform.rotation = Quaternion.Euler(cameraRotation);
         oldCamera.transform.rotation = Quaternion.Euler(cameraRotation);
@@ -109,5 +111,17 @@ public class PlayerController : MonoBehaviour
     {
         isWalking = (m.x > 0.1f || m.x < -0.1f) || (m.z > 0.1f || m.z < -0.1f) ? true : false;
         animator.SetBool("isWalking", isWalking);
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.tag == "Enemy")
+        {
+            PlayerHealth.instance.TakeDamage(1);
+            Debug.Log(PlayerHealth.instance.getHealth());
+            if (PlayerHealth.instance.getHealth() <= 0)
+            {
+                animator.SetBool("isAlive", false);
+            }
+        }
     }
 }

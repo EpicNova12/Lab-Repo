@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public static PlayerHealth instance;
+
     public int health;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     public int getHealth()
     {

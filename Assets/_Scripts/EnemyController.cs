@@ -1,12 +1,15 @@
 ﻿
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
     public NavMeshAgent agent;
 
     public Transform player;
+
+    public Animator enemyAnimator;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -22,15 +25,15 @@ public class EnemyController : MonoBehaviour
     bool alreadyAttacked;
     public GameObject projectile;
     public GameObject projectilePos;
-
     //States
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
+       player = GameObject.Find("Character_Gun").transform;
+       agent = GetComponent<NavMeshAgent>();
+       enemyAnimator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -101,8 +104,13 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        enemyAnimator.SetTrigger("Hit");
+        if (health <= 0)
+        {
+            DestroyEnemy();
+            Score.instance.scoreUp(1);
+            //Invoke(nameof(DestroyEnemy), 0.5f);
+        }
     }
     private void DestroyEnemy()
     {
@@ -115,5 +123,13 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.tag == "Player")
+        {
+            enemyAnimator.SetTrigger("Attack");
+        }
     }
 }
