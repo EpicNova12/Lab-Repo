@@ -117,6 +117,7 @@ public class PlayerController : MonoBehaviour
         if (other.collider.tag == "Enemy")
         {
             PlayerHealth.instance.TakeDamage(1);
+            animator.SetTrigger("Hit");
             Debug.Log("Health: "+PlayerHealth.instance.getHealth());
             if (PlayerHealth.instance.getHealth() <= 0)
             {
