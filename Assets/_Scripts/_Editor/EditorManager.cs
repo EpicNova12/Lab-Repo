@@ -68,16 +68,16 @@ public class EditorManager : MonoBehaviour
                 case 1:
                     item = Instantiate(prefab1);
                     //Create boxes that can observe events and give them an event to do
-                    SpikeBall spike1 = new SpikeBall(item, new GreenMat());
+                  //  SpikeBall spike1 = new SpikeBall(item, new GreenMat());
                     //Add the boxes to the list of objects waiting for something to happen
-                    subject.AddObserver(spike1);
+                    //subject.AddObserver(spike1);
                     break;
                 case 2:
                     item = Instantiate(prefab2);
                     //Create boxes that can observe events and give them an event to do
-                    SpikeBall spike2 = new SpikeBall(item, new YellowMat());
+                  //  SpikeBall spike2 = new SpikeBall(item, new YellowMat());
                     //Add the boxes to the list of objects waiting for something to happen
-                    subject.AddObserver(spike2);
+                  //  subject.AddObserver(spike2);
                     break;
                 default:
                     break;

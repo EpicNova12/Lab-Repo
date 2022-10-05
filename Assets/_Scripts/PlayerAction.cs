@@ -71,6 +71,15 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Call Ambulance"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ca44c93-cda3-4af7-b6cd-5561c461b8b3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -170,6 +179,17 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""564bb874-1a95-4e1d-bdf6-ee90f611c9ff"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Call Ambulance"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -273,6 +293,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
+        m_Player_CallAmbulance = m_Player.FindAction("Call Ambulance", throwIfNotFound: true);
         // Editor
         m_Editor = asset.FindActionMap("Editor", throwIfNotFound: true);
         m_Editor_EditorMode = m_Editor.FindAction("EditorMode", throwIfNotFound: true);
@@ -343,6 +364,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Aim;
+    private readonly InputAction m_Player_CallAmbulance;
     public struct PlayerActions
     {
         private @PlayerAction m_Wrapper;
@@ -352,6 +374,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
+        public InputAction @CallAmbulance => m_Wrapper.m_Player_CallAmbulance;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -376,6 +399,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @CallAmbulance.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCallAmbulance;
+                @CallAmbulance.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCallAmbulance;
+                @CallAmbulance.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCallAmbulance;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -395,6 +421,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @CallAmbulance.started += instance.OnCallAmbulance;
+                @CallAmbulance.performed += instance.OnCallAmbulance;
+                @CallAmbulance.canceled += instance.OnCallAmbulance;
             }
         }
     }
@@ -463,6 +492,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnCallAmbulance(InputAction.CallbackContext context);
     }
     public interface IEditorActions
     {

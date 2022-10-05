@@ -8,29 +8,30 @@ public abstract class Observer
     public abstract void OnNotify();
 }
 
-public class SpikeBall : Observer
+public class AmbulanceSystem : Observer
 {
     //The box gameobject which will do something
-    GameObject spikeObj;
+    GameObject ambulance;
     //What will happen when this box gets an event
-    SpikeEvents spikeEvent;
+    AmbulanceEvent ambulanceEvent;
 
-    public SpikeBall(GameObject spikeObj, SpikeEvents spikeEvent)
+    public AmbulanceSystem(GameObject ambulance, AmbulanceEvent ambulanceEvent)
     {
-        this.spikeObj = spikeObj;
-        this.spikeEvent = spikeEvent;
+        this.ambulance = ambulance;
+        this.ambulanceEvent = ambulanceEvent;
     }
 
     //What the box will do if the event fits it (will always fit but you will probably change that on your own)
     public override void OnNotify()
     {
-        SpikeColor(spikeEvent.SpikeEditorColor());
+        NotifyPlayer();
+        ambulanceEvent.Move();
     }
 
     //The box will always jump in this case
-    void SpikeColor(Color mat)
+    void NotifyPlayer()
     {
         //If the box is close to the ground
-        spikeObj.GetComponent<Renderer>().materials[0].color = mat;
+        Debug.Log("The Ambulance has arrived!!!");
     }
 }
