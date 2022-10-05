@@ -63,11 +63,11 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
-                 {
+                {
                     ""name"": ""Aim"",
                     ""type"": ""Button"",
-                    ""id"": ""acedc55f-60fe-43cb-a6a9-57b343e9d740"",
-                    ""expectedControlType"": ""Aim"",
+                    ""id"": ""b24dae82-4c89-4975-b678-f105fa2b0ec5"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -164,7 +164,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fdc3abe2-1b24-48ae-a966-9d72995593d8"",
+                    ""id"": ""181dd3d0-509e-4c77-a855-0ce46ceb0b20"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",

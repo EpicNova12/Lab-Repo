@@ -124,5 +124,12 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("isAlive", false);
             }
         }
+        if (other.collider.tag == "Powerup")
+        {
+            PowerUp m_powerUp = other.collider.GetComponent<PowerUp>();
+            PowerUpManager.instance.changePowerUp(m_powerUp);
+            Debug.Log("Current Power up is: " + m_powerUp.powerName);
+            m_powerUp.destroyObject();
+        }
     }
 }
