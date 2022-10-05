@@ -5,7 +5,6 @@ using UnityEngine;
 public class PowerUpManager : MonoBehaviour
 {
     public static PowerUpManager instance;
-    public PowerUp currentPowerUp;
     public PlayerController playerController;
 
     private void Awake()
