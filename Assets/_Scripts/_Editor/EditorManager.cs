@@ -15,6 +15,8 @@ public class EditorManager : MonoBehaviour
     public bool editorMode;
 
     Vector3 mousePos;
+
+    iCommand command;
     public GameObject prefab1;
     public GameObject prefab2;
     GameObject item;
@@ -92,6 +94,10 @@ public class EditorManager : MonoBehaviour
         {
             item.GetComponent<Rigidbody>().useGravity = true;
             item.GetComponent<Collider>().enabled = true;
+
+            command = new PlaceItemCommand(item.transform.position, item.transform);
+            CommandInvoker.AddCommand(command);
+
             instantiated = false; 
         }        
     }

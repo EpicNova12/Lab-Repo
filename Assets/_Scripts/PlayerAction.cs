@@ -63,11 +63,11 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
-                 {
+                {
                     ""name"": ""Aim"",
                     ""type"": ""Button"",
-                    ""id"": ""acedc55f-60fe-43cb-a6a9-57b343e9d740"",
-                    ""expectedControlType"": ""Aim"",
+                    ""id"": ""67339b8c-5b68-4537-9f47-695686a168b4"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -164,7 +164,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fdc3abe2-1b24-48ae-a966-9d72995593d8"",
+                    ""id"": ""f0e105ed-fee3-4835-8c51-70a38b342ee8"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -210,6 +210,15 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""name"": ""DropItem"",
                     ""type"": ""Button"",
                     ""id"": ""f319c67e-6885-4d3e-bdfc-346b6e999074"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Undo"",
+                    ""type"": ""Button"",
+                    ""id"": ""cecb257a-bb39-49d0-88c0-b1476f5a4fff"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -260,6 +269,17 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""action"": ""AddItem2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a9a71c6-1a8f-40f7-8a82-b08fcd707c2f"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -279,6 +299,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         m_Editor_AddItem1 = m_Editor.FindAction("AddItem1", throwIfNotFound: true);
         m_Editor_AddItem2 = m_Editor.FindAction("AddItem2", throwIfNotFound: true);
         m_Editor_DropItem = m_Editor.FindAction("DropItem", throwIfNotFound: true);
+        m_Editor_Undo = m_Editor.FindAction("Undo", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -407,6 +428,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Editor_AddItem1;
     private readonly InputAction m_Editor_AddItem2;
     private readonly InputAction m_Editor_DropItem;
+    private readonly InputAction m_Editor_Undo;
     public struct EditorActions
     {
         private @PlayerAction m_Wrapper;
@@ -415,6 +437,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         public InputAction @AddItem1 => m_Wrapper.m_Editor_AddItem1;
         public InputAction @AddItem2 => m_Wrapper.m_Editor_AddItem2;
         public InputAction @DropItem => m_Wrapper.m_Editor_DropItem;
+        public InputAction @Undo => m_Wrapper.m_Editor_Undo;
         public InputActionMap Get() { return m_Wrapper.m_Editor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -436,6 +459,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @DropItem.started -= m_Wrapper.m_EditorActionsCallbackInterface.OnDropItem;
                 @DropItem.performed -= m_Wrapper.m_EditorActionsCallbackInterface.OnDropItem;
                 @DropItem.canceled -= m_Wrapper.m_EditorActionsCallbackInterface.OnDropItem;
+                @Undo.started -= m_Wrapper.m_EditorActionsCallbackInterface.OnUndo;
+                @Undo.performed -= m_Wrapper.m_EditorActionsCallbackInterface.OnUndo;
+                @Undo.canceled -= m_Wrapper.m_EditorActionsCallbackInterface.OnUndo;
             }
             m_Wrapper.m_EditorActionsCallbackInterface = instance;
             if (instance != null)
@@ -452,6 +478,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @DropItem.started += instance.OnDropItem;
                 @DropItem.performed += instance.OnDropItem;
                 @DropItem.canceled += instance.OnDropItem;
+                @Undo.started += instance.OnUndo;
+                @Undo.performed += instance.OnUndo;
+                @Undo.canceled += instance.OnUndo;
             }
         }
     }
@@ -470,5 +499,6 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         void OnAddItem1(InputAction.CallbackContext context);
         void OnAddItem2(InputAction.CallbackContext context);
         void OnDropItem(InputAction.CallbackContext context);
+        void OnUndo(InputAction.CallbackContext context);
     }
 }
